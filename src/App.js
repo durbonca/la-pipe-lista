@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { addProduct, deleteProduct, getProducts } from "./api/product";
+import { addProduct, deleteProduct } from "./api/product";
+import { db } from './firebase/firebase'
+import { collection, onSnapshot } from "firebase/firestore";
 import { InputProduct, Product } from "./components";
 
 export const App = () => {
@@ -9,9 +11,21 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const updateProductsList = async () => {
-    const products = await getProducts();
-    setProductsList(products);
-  };
+    onSnapshot(collection(db, "list"), (querySnapshot) => {
+        const products = [];
+        querySnapshot.forEach((doc) => {
+          let { product } = doc.data();
+          let id = doc.id;
+          products.push({
+            product,
+            id,
+          });
+        });
+        setProductsList(products)
+      },
+      (error) => console.error(error)
+    );
+  }
 
   useEffect(() => {
     updateProductsList();
