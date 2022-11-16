@@ -1,6 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Lista Pipe compras",
+  "short_name": "Pipe lista",
+  "description": "Lista de mercado de Pipe",
+  "theme_color": "#3579f6",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "favicon.ico",
@@ -19,7 +22,5 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "display": "standalone"
 }

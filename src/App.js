@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import { addProduct, deleteProduct, getProducts } from "./api/product";
+import { InputProduct, Product } from "./components";
 
-function App() {
+export const App = () => {
+
+  const [productsList, setProductsList] = useState([]);
+  const [product, setProduct] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const updateProductsList = async () => {
+    const products = await getProducts();
+    setProductsList(products);
+  };
+
+  useEffect(() => {
+    updateProductsList();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className="absolute w-full">
+      <InputProduct
+       product={product}
+       setProduct={setProduct}
+       addProduct={addProduct}
+       updateProductsList={updateProductsList}
+       isLoading={isLoading}
+       setIsLoading={setIsLoading}
+      />
+      <ul className="relative mt-28">
+        { productsList && productsList.map((product) => <Product
+            key={product.id}
+            item={product} 
+            deleteProduct={deleteProduct} 
+            updateProductsList={updateProductsList}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            />
+          )}
+      </ul>
+    </div>    
   );
 }
-
-export default App;
